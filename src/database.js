@@ -7,5 +7,5 @@ mongoose.connect(URI,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
-}).then(db => console.log('Conexión establecida correctamente: '))
+}).then(db => console.log('Conexión establecida correctamente con la base de datos'))
   .catch(err => console.error(err));

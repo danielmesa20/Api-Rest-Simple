@@ -10,10 +10,13 @@ exports.allProducts = async (req, res) => {
 };
 
 exports.newProduct = async (req, res) => {
+    console.log(req.body);
     const product = new Product({
-        nombre: req.body.nombre,
-        precio: req.body.precio,
-        categoria: req.body.categoria,
+        name:        req.body.name,          
+        description: req.body.description,   
+        category:    req.body.category,    
+        price:       req.body.price,     
+        stock:       req.body.stock,       
     });
     try {
         await product.save();
