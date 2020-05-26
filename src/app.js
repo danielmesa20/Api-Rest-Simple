@@ -2,13 +2,19 @@ const express = require('express');
 const morgan = require('morgan');
 const passport = require("passport");
 const session = require('express-session');
+const cors = require('cors');
 
 //Initializations
 const app = express();
+
+//Connect two servers
+app.use(cors())
+
+//Email and Password auth
 require('./passport/local_auth');
 
 // Settings
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 4000);
 
 // Midlewares
 app.use(express.json());

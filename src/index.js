@@ -13,7 +13,6 @@ async function main(){
   }catch(e){
     console.log('Error al iniciar el servidor');
   }
-  
 }
 
 main();
