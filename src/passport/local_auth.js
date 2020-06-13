@@ -22,6 +22,7 @@ passport.use('local-signup', new LocalStrategy({
 }, async (req, email, password, done) => {
     try {
         const userCheck = await User.findOne({ email });
+
         if (!userCheck) {
             const user = new User({
                 username: req.body.username,
@@ -29,15 +30,16 @@ passport.use('local-signup', new LocalStrategy({
                 password
             });
             user.password = await user.encryptPassword(password);
-            await user.save()
-                .then(user => {
-                    return done(null, user);
-                }).catch(err => {
-                    return done(err, null);
-                });
-        } else {
-            return done('Email ya registrado', null);
+            try {
+                const newUser = await user.save();
+                return done(null, newUser);
+            } catch (err) {
+                return done(err, null);
+            }
         }
+
+        return done('Email already used', null);
+        
     } catch (err) {
         return done(err, null);
     }
@@ -54,11 +56,12 @@ passport.use('local-signin', new LocalStrategy({
             if (user.validatePassword(password)) {
                 return done(null, user);
             } else {
-                return done('Contraseña erronea', null);
+                return done('Wrong password', null);
             }
-        } else {
-            return done('Email no registrado', null);
-        }
+        } 
+
+        return done('Unregistered email', null);
+        
     } catch (err) {
         return done(err, null);
     }
